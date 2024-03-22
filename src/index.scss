@@ -1,9 +1,11 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  border: 0;
-}
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800&display=swap');
 
-html {
-  font-size: 62.5%;
+/* base styles */
+body {
+  font-family: Raleway, sans-serif;
+  margin: 0;
+  font-size: 1.5em;
+  text-align: center;
+  background: #1b1523;
+  color: #fff;
 }

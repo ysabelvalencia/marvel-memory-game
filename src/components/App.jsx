@@ -1,19 +1,17 @@
 import { useState } from 'react';
-import reactLogo from '../assets/react.svg';
-import viteLogo from '/vite.svg';
-import '../styles/App.scss';
-import { Route, Routes } from "react-router-dom";
+import '@styles/App.scss';
+
 
 function App() {
+
   const [count, setCount] = useState(0)
 
   return (
-    <>
-    <div>
-      <h1>Hola mundo</h1>
+    <div className="App">
+      <h1>Marvel Memory Game</h1>
+      <button>New Game</button>
     </div>
-    </>
-  )
+  );
 }
 
 export default App
