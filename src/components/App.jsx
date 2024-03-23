@@ -6,12 +6,12 @@ import { useEffect } from 'react';
 
 const cardImages = [
 
-  {"src": "src/images/hulk.jpg"},
-  {"src": "src/images/ant-man.jpg"},
-  {"src": "src/images/ironman.jpg"},
-  {"src": "src/images/black-widow.jpg"},
-  {"src": "src/images/capitan-america.jpg"},
-  {"src": "src/images/spiderman.jpg"}
+  {"src": "src/images/hulk.jpg", matched: false },
+  {"src": "src/images/ant-man.jpg", matched: false },
+  {"src": "src/images/ironman.jpg", matched: false },
+  {"src": "src/images/black-widow.jpg", matched: false },
+  {"src": "src/images/capitan-america.jpg", matched: false },
+  {"src": "src/images/spiderman.jpg", matched: false }
  ]
 
 function App() {
@@ -22,6 +22,7 @@ function App() {
   const [turns, setTurns] = useState(0)
   const [choiceOne, setChoiceOne] = useState(null)
   const [choiceTwo, setChoiceTwo] = useState(null)
+  const [disabled, setDisabled] = useState(false)
 
 
   //1.Duplicar, ordenar aleatoriamente y dejar turnos a 0
@@ -32,6 +33,8 @@ function App() {
     .sort(() => Math.random() - 0.5)
     .map((card) => ({ ...card, id: Math.random() }))
 
+    setChoiceOne(null)
+    setChoiceTwo(null)
     setCards(shuffledCards)
     setTurns(0)
   }
@@ -43,13 +46,25 @@ function App() {
   useEffect(() => {
 
     if (choiceOne && choiceTwo) {
+
+      setDisabled(true)
       
       if (choiceOne.src === choiceTwo.src) {
+        
+        setCards(prevCards => {
+          return prevCards.map (card => {
+            if (card.src === choiceOne.src) {
+              return {...card, matched:true}
+            } else {
+              return card
+            }
+          })
+        })
         console.log('Those cards match')
         resetTurn()
       } else {
         console.log('Those cards do not match')
-        resetTurn()
+        setTimeout(() => resetTurn(), 1000)
       }
     }
   }, [choiceOne, choiceTwo])
@@ -59,7 +74,16 @@ function App() {
     setChoiceOne(null)
     setChoiceTwo(null)
     setTurns(prevTurns => prevTurns + 1)
+    setDisabled(false)
   }
+
+  console.log (cards, turns)
+
+
+  //starts a new game
+  useEffect(() => {
+    shuffleCards()
+  }, []);
 
   return (
     <div className="App">
@@ -73,10 +97,13 @@ function App() {
           <SingleCard 
           key={card.id} 
           card={card}
-          handleChoice={handleChoice}/>
+          handleChoice={handleChoice}
+          flipped={card === choiceOne || card === choiceTwo || card.matched}
+          disabled={disabled}
+          />
         ))}
-
       </div>
+          <p>Turns: {turns}</p>
     </div>
   );
 }

@@ -1,14 +1,20 @@
 import React from 'react'
+import '@styles/SingleCard.scss'
 
 export default function SingleCard({ card,
-handleChoice }){
+handleChoice,
+flipped,
+disabled }){
 
   const handleClick = () => {
-    handleChoice(card)
+    
+    if (!disabled) {
+      handleChoice(card)
+    }
   }
   return (
     <div className='card'>
-            <div>
+            <div className={flipped? "flipped" : ""}>
               <img className='front' src={card.src} alt="Front image" />
               <img 
               className='back' src="src\images\spider_black.jpg" 
